@@ -1,0 +1,263 @@
+{
+  "communities": {
+    "0": [
+      "admin_peserta",
+      "admin_peserta_url_hal",
+      "includes_functions",
+      "includes_functions_buat_kode_peserta",
+      "includes_functions_csrf_field",
+      "includes_functions_csrf_require",
+      "includes_functions_csrf_token",
+      "includes_functions_csrf_verify",
+      "includes_functions_flash_get",
+      "includes_functions_flash_render",
+      "includes_functions_format_jam",
+      "includes_functions_format_tanggal",
+      "includes_functions_get",
+      "includes_functions_normalisasi_whatsapp",
+      "includes_functions_post"
+    ],
+    "1": [
+      "includes_auth",
+      "includes_auth_admin_logged_in",
+      "includes_auth_admin_login",
+      "includes_auth_admin_logout",
+      "includes_auth_admin_nama",
+      "includes_auth_login_catat_gagal",
+      "includes_auth_login_reset_gagal",
+      "includes_auth_login_sisa_kunci",
+      "includes_auth_login_terkunci",
+      "includes_auth_require_admin",
+      "includes_auth_require_admin_json",
+      "includes_functions_flash_set",
+      "includes_functions_json_response",
+      "includes_functions_redirect"
+    ],
+    "2": [
+      "admin_approval",
+      "admin_approval_setujui_peserta",
+      "admin_approval_tolak_peserta",
+      "admin_approval_url_tab",
+      "config_database",
+      "config_database_db",
+      "includes_functions_cari_peserta_by_id",
+      "includes_functions_cari_peserta_by_kode",
+      "includes_functions_jumlah_diterima",
+      "includes_functions_statistik_peserta",
+      "includes_mailer_tandai_email_terkirim",
+      "pdo"
+    ],
+    "3": [
+      "includes_functions_e",
+      "includes_mailer",
+      "includes_mailer_kirim_barcode_peserta",
+      "includes_mailer_kirim_email_ditolak",
+      "includes_mailer_kirim_email_pending",
+      "includes_mailer_kirim_polos_phpmailer",
+      "includes_mailer_kirim_via_mail",
+      "includes_mailer_kirim_via_phpmailer",
+      "includes_mailer_muat_phpmailer",
+      "includes_mailer_template_email_barcode",
+      "includes_mailer_template_email_polos"
+    ],
+    "4": [
+      "includes_barcode",
+      "includes_barcode_barcode_data_uri",
+      "includes_barcode_buat_barcode_peserta",
+      "includes_barcode_code128_encode",
+      "includes_barcode_code128_ke_png",
+      "includes_barcode_code128_patterns",
+      "includes_barcode_url_barcode_peserta",
+      "includes_functions_normalisasi_kode"
+    ],
+    "5": [
+      "register",
+      "register_kls_input"
+    ],
+    "6": [
+      "admin_cari_peserta"
+    ],
+    "7": [
+      "admin_checkin"
+    ],
+    "8": [
+      "admin_export"
+    ],
+    "9": [
+      "admin_index"
+    ],
+    "10": [
+      "admin_login"
+    ],
+    "11": [
+      "admin_logout"
+    ],
+    "12": [
+      "admin_scan_process"
+    ],
+    "13": [
+      "admin_send_barcode"
+    ],
+    "14": [
+      "config_config"
+    ],
+    "15": [
+      "config_smtp"
+    ],
+    "16": [
+      "includes_footer"
+    ],
+    "17": [
+      "includes_header"
+    ],
+    "18": [
+      "includes_scan_ui"
+    ],
+    "19": [
+      "index"
+    ],
+    "20": [
+      "install"
+    ],
+    "21": [
+      "success"
+    ]
+  },
+  "cohesion": {
+    "0": 0.1619047619047619,
+    "1": 0.16483516483516483,
+    "2": 0.22727272727272727,
+    "3": 0.43636363636363634,
+    "4": 0.4642857142857143,
+    "5": 1.0,
+    "6": 1.0,
+    "7": 1.0,
+    "8": 1.0,
+    "9": 1.0,
+    "10": 1.0,
+    "11": 1.0,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0
+  },
+  "gods": [
+    {
+      "id": "config_database_db",
+      "label": "db()",
+      "degree": 10
+    },
+    {
+      "id": "includes_mailer_kirim_barcode_peserta",
+      "label": "kirim_barcode_peserta()",
+      "degree": 7
+    },
+    {
+      "id": "includes_mailer_kirim_email_ditolak",
+      "label": "kirim_email_ditolak()",
+      "degree": 7
+    },
+    {
+      "id": "admin_approval_setujui_peserta",
+      "label": "setujui_peserta()",
+      "degree": 6
+    },
+    {
+      "id": "includes_functions_e",
+      "label": "e()",
+      "degree": 6
+    },
+    {
+      "id": "includes_barcode_buat_barcode_peserta",
+      "label": "buat_barcode_peserta()",
+      "degree": 5
+    },
+    {
+      "id": "includes_functions_normalisasi_kode",
+      "label": "normalisasi_kode()",
+      "degree": 5
+    },
+    {
+      "id": "includes_mailer_kirim_via_mail",
+      "label": "kirim_via_mail()",
+      "degree": 5
+    },
+    {
+      "id": "includes_mailer_kirim_email_pending",
+      "label": "kirim_email_pending()",
+      "degree": 5
+    },
+    {
+      "id": "admin_approval_tolak_peserta",
+      "label": "tolak_peserta()",
+      "degree": 4
+    }
+  ],
+  "surprises": [
+    {
+      "source": "admin_login()",
+      "target": "db()",
+      "source_files": [
+        "includes/auth.php",
+        "config/database.php"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities; peripheral node `admin_login()` unexpectedly reaches hub `db()`"
+    },
+    {
+      "source": "setujui_peserta()",
+      "target": "buat_barcode_peserta()",
+      "source_files": [
+        "admin/approval.php",
+        "includes/barcode.php"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "setujui_peserta()",
+      "target": "kirim_barcode_peserta()",
+      "source_files": [
+        "admin/approval.php",
+        "includes/mailer.php"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "tolak_peserta()",
+      "target": "kirim_email_ditolak()",
+      "source_files": [
+        "admin/approval.php",
+        "includes/mailer.php"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "jumlah_diterima()",
+      "target": "db()",
+      "source_files": [
+        "includes/functions.php",
+        "config/database.php"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `jumlah_diterima()` unexpectedly reaches hub `db()`"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

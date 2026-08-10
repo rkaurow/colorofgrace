@@ -1,0 +1,6 @@
+# Lindungi file konfigurasi berisi kredensial database & SMTP
+<FilesMatch "\.(php)$">
+    Require all denied
+</FilesMatch>
+
+Options -Indexes
