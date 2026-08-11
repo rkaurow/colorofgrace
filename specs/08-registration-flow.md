@@ -15,7 +15,7 @@ Alur pendaftaran peserta sesuai flow resmi. Semua langkah bersifat publik (tanpa
    5. Nomor WhatsApp
 5. **Submit** — data dikirim via POST dengan CSRF token.
 6. **Pemberitahuan berhasil** — halaman `/success.php` menampilkan pesan:
-   > Pendaftaran berhasil. Barcode pendaftaran akan dikirim melalui email dan wajib ditunjukkan saat check-in.
+   > Pendaftaran berhasil. QR Code pendaftaran akan dikirim melalui email dan wajib ditunjukkan saat check-in.
 
 ## Urutan Proses Server
 
@@ -27,16 +27,16 @@ POST /register.php
   -> Cek duplikasi email
   -> Generate kode unik peserta (EVT-000001)
   -> INSERT ke tabel peserta (status = 'belum_hadir')
-  -> Generate barcode Code 128 dari kode unik
-  -> Kirim email berisi barcode (lihat 09-email-service.md)
+   -> Generate QR Code dari kode unik
+   -> Kirim email berisi QR Code (lihat 09-email-service.md)
   -> Update email_sent_at bila pengiriman sukses
   -> Redirect ke /success.php
 ```
 
 ## Aturan Penting
 
-- Barcode **tidak ditampilkan** di halaman success. Peserta hanya diberi tahu bahwa barcode dikirim ke email.
-- Jika pengiriman email gagal, pendaftaran **tetap tersimpan**. Peserta diberi pesan agar menghubungi panitia, dan admin dapat mengirim ulang barcode dari dashboard.
+- QR Code **tidak ditampilkan** di halaman success. Peserta hanya diberi tahu bahwa QR Code dikirim ke email.
+- Jika pengiriman email gagal, pendaftaran **tetap tersimpan**. Peserta diberi pesan agar menghubungi panitia, dan admin dapat mengirim ulang QR Code dari dashboard.
 - Satu email hanya boleh terdaftar satu kali.
 - Redirect setelah submit menggunakan pola POST-Redirect-GET untuk mencegah double submit.
 

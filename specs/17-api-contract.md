@@ -35,8 +35,8 @@ Seluruh endpoint wajib memeriksa session admin dan CSRF token sebelum memproses.
 
 | Service | Fungsi Utama |
 |---|---|
-| `mailer.php` | `kirimBarcodePeserta($peserta)` mengembalikan boolean |
-| `barcode.php` | `buatBarcodePeserta($kode)` mengembalikan path file gambar |
+| `mailer.php` | `kirim_qr_peserta($peserta)` mengembalikan boolean |
+| `qrcode.php` | `buat_qr_peserta($kode)` mengembalikan path file gambar |
 | `functions.php` | Sanitasi, escape output, CSRF token, format tanggal |
 | `auth.php` | Proteksi halaman admin |
 | `database.php` | Koneksi PDO/MySQLi dengan prepared statements |

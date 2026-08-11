@@ -1,6 +1,6 @@
 <?php
 /**
- * Endpoint validasi scan barcode (JSON).
+ * Endpoint validasi scan QR Code (JSON).
  *
  * POST: kode, tahap (hadir|checkin), csrf_token
  *
@@ -8,7 +8,7 @@
  *   success             — berhasil dicatat hadir
  *   duplicate           — sudah pernah scan
  *   belum_disetujui     — status_acc bukan 'diterima' (pending / ditolak)
- *   invalid             — barcode tidak ditemukan
+ *   invalid             — QR Code tidak ditemukan
  */
 
 require_once __DIR__ . '/../includes/auth.php';
@@ -37,7 +37,7 @@ if ($kode === '') {
     json_response([
         'status'  => 'invalid',
         'tahap'   => $tahap,
-        'message' => 'Barcode kosong.',
+        'message' => 'QR Code kosong.',
     ]);
 }
 
@@ -48,7 +48,7 @@ if (!$peserta) {
         'status'  => 'invalid',
         'tahap'   => $tahap,
         'kode'    => $kode,
-        'message' => 'Barcode tidak valid. Peserta tidak ditemukan.',
+        'message' => 'QR Code tidak valid. Peserta tidak ditemukan.',
     ]);
 }
 
@@ -76,7 +76,7 @@ if (($peserta['status_acc'] ?? 'pending') !== 'diterima') {
 }
 
 // =========================================================
-// TAHAP TUNGGAL — Kehadiran (barcode dari email peserta)
+// TAHAP TUNGGAL — Kehadiran (QR Code dari email peserta)
 // =========================================================
 
 if ($peserta['status'] === 'hadir') {

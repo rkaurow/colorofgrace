@@ -1,13 +1,13 @@
 <?php
 /**
- * Pengiriman email berisi barcode peserta.
+ * Pengiriman email berisi QR Code peserta.
  *
  * Memakai PHPMailer bila tersedia di /vendor, jika tidak akan
  * fallback ke fungsi mail() bawaan PHP.
  */
 
 require_once __DIR__ . '/functions.php';
-require_once __DIR__ . '/barcode.php';
+require_once __DIR__ . '/qrcode.php';
 require_once __DIR__ . '/../config/smtp.php';
 
 /** Muat PHPMailer bila ada. */
@@ -34,10 +34,16 @@ function muat_phpmailer(): bool
     return false;
 }
 
+  /** Hilangkan whitespace dari App Password yang ditampilkan berkelompok. */
+  function password_smtp(): string
+  {
+    return preg_replace('/\s+/', '', SMTP_PASS) ?? SMTP_PASS;
+  }
+
 /**
  * Template email HTML.
  */
-function template_email_barcode(array $peserta): string
+function template_email_qr(array $peserta): string
 {
     $nama = e($peserta['nama']);
     $kode = e($peserta['kode']);
@@ -67,12 +73,12 @@ function template_email_barcode(array $peserta): string
           <td style="padding:28px 24px;">
             <p style="margin:0 0 14px;font-size:15px;color:#212529;">Halo <strong>{$nama}</strong>,</p>
             <p style="margin:0 0 20px;font-size:14px;color:#495057;line-height:1.6;">
-              Selamat! Pendaftaranmu telah <strong>disetujui</strong>. Tunjukkan barcode di bawah ini
+              Selamat! Pendaftaranmu telah <strong>disetujui</strong>. Tunjukkan QR Code di bawah ini
               kepada petugas saat datang pada 22 Agustus 2026.
             </p>
 
             <div style="text-align:center;background:#ffffff;border:1px solid #dee2e6;border-radius:10px;padding:20px;margin-bottom:20px;">
-              <img src="cid:barcode_peserta" alt="Barcode {$kode}" style="max-width:100%;height:auto;display:block;margin:0 auto;">
+              <img src="cid:qr_peserta" alt="QR Code {$kode}" style="max-width:100%;height:auto;display:block;margin:0 auto;">
               <p style="margin:12px 0 0;font-size:18px;font-weight:bold;letter-spacing:2px;color:#212529;">{$kode}</p>
             </div>
 
@@ -85,8 +91,8 @@ function template_email_barcode(array $peserta): string
 
             <div style="margin-top:22px;background:#fff8e1;border-left:4px solid #ffc107;padding:12px 14px;border-radius:4px;">
               <p style="margin:0;font-size:13px;color:#664d03;line-height:1.6;">
-                <strong>Penting:</strong> Simpan email ini. Barcode wajib ditunjukkan saat datang.
-                Cukup pindai barcode ini satu kali di pintu masuk acara.
+                <strong>Penting:</strong> Simpan email ini. QR Code wajib ditunjukkan saat datang.
+                Cukup pindai QR Code ini satu kali di pintu masuk acara.
               </p>
             </div>
           </td>
@@ -109,11 +115,11 @@ HTML;
 }
 
 /**
- * Kirim email barcode ke peserta.
+ * Kirim email QR Code ke peserta.
  *
  * @return bool true bila terkirim.
  */
-function kirim_barcode_peserta(array $peserta): bool
+function kirim_qr_peserta(array $peserta): bool
 {
     if (!MAIL_ENABLED) {
         error_log('MAIL_ENABLED = false, email ke ' . $peserta['email'] . ' dilewati.');
@@ -121,15 +127,15 @@ function kirim_barcode_peserta(array $peserta): bool
     }
 
     $kode = $peserta['kode'];
-    $file = buat_barcode_peserta($kode);
+    $file = buat_qr_peserta($kode);
 
     if ($file === null) {
-        error_log('Gagal membuat barcode untuk ' . $kode);
+        error_log('Gagal membuat QR Code untuk ' . $kode);
         return false;
     }
 
-    $subjek = 'Barcode Pendaftaran - ' . EVENT_NAME;
-    $html   = template_email_barcode($peserta);
+    $subjek = 'QR Code Pendaftaran - ' . EVENT_NAME;
+    $html   = template_email_qr($peserta);
 
     if (muat_phpmailer()) {
         return kirim_via_phpmailer($peserta, $subjek, $html, $file);
@@ -139,7 +145,7 @@ function kirim_barcode_peserta(array $peserta): bool
 }
 
 /** Pengiriman via PHPMailer + SMTP (disarankan). */
-function kirim_via_phpmailer(array $peserta, string $subjek, string $html, string $fileBarcode): bool
+function kirim_via_phpmailer(array $peserta, string $subjek, string $html, string $fileQr): bool
 {
     $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
 
@@ -148,7 +154,7 @@ function kirim_via_phpmailer(array $peserta, string $subjek, string $html, strin
         $mail->Host       = SMTP_HOST;
         $mail->SMTPAuth   = true;
         $mail->Username   = SMTP_USER;
-        $mail->Password   = SMTP_PASS;
+        $mail->Password   = password_smtp();
         $mail->SMTPSecure = SMTP_SECURE;
         $mail->Port       = SMTP_PORT;
         $mail->CharSet    = 'UTF-8';
@@ -156,14 +162,14 @@ function kirim_via_phpmailer(array $peserta, string $subjek, string $html, strin
         $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
         $mail->addAddress($peserta['email'], $peserta['nama']);
 
-        // Barcode disematkan sebagai inline image (cid)
-        $mail->addEmbeddedImage($fileBarcode, 'barcode_peserta', basename($fileBarcode));
+        // QR Code disematkan sebagai inline image (cid)
+        $mail->addEmbeddedImage($fileQr, 'qr_peserta', basename($fileQr));
 
         $mail->isHTML(true);
         $mail->Subject = $subjek;
         $mail->Body    = $html;
         $mail->AltBody = 'Kode pendaftaran kamu: ' . $peserta['kode']
-            . '. Tunjukkan barcode saat datang di lokasi acara.';
+            . '. Tunjukkan QR Code saat datang di lokasi acara.';
 
         $mail->send();
         return true;
@@ -176,9 +182,9 @@ function kirim_via_phpmailer(array $peserta, string $subjek, string $html, strin
 /** Fallback sederhana memakai mail() bawaan PHP. */
 function kirim_via_mail(array $peserta, string $subjek, string $html): bool
 {
-    // Tanpa PHPMailer, barcode dikirim sebagai tautan gambar
-    $urlBarcode = url_barcode_peserta($peserta['kode']);
-    $html = str_replace('cid:barcode_peserta', $urlBarcode, $html);
+    // Tanpa PHPMailer, QR Code dikirim sebagai tautan gambar
+    $urlQr = url_qr_peserta($peserta['kode']);
+    $html = str_replace('cid:qr_peserta', $urlQr, $html);
 
     $headers = implode("\r\n", [
         'MIME-Version: 1.0',
@@ -203,7 +209,7 @@ function tandai_email_terkirim(int $pesertaId): void
 }
 
 // =========================================================
-// Email tanpa barcode (pending & ditolak)
+// Email tanpa QR Code (pending & ditolak)
 // =========================================================
 
 /** Kerangka email sederhana yang dipakai template pending & ditolak. */
@@ -274,7 +280,7 @@ function kirim_email_pending(array $peserta): bool
             <div style="background:#fff8e1;border-left:4px solid #ffc107;padding:12px 14px;border-radius:4px;">
               <p style="margin:0;font-size:13px;color:#664d03;line-height:1.6;">
                 Panitia akan meninjau pendaftaran terlebih dahulu.
-                Bila disetujui, kamu akan menerima email berisi <strong>barcode tiket</strong>
+                Bila disetujui, kamu akan menerima email berisi <strong>QR Code tiket</strong>
                 yang wajib ditunjukkan saat datang.
               </p>
             </div>';
@@ -328,7 +334,7 @@ function kirim_polos_phpmailer(array $peserta, string $subjek, string $html): bo
         $mail->Host       = SMTP_HOST;
         $mail->SMTPAuth   = true;
         $mail->Username   = SMTP_USER;
-        $mail->Password   = SMTP_PASS;
+        $mail->Password   = password_smtp();
         $mail->SMTPSecure = SMTP_SECURE;
         $mail->Port       = SMTP_PORT;
         $mail->CharSet    = 'UTF-8';

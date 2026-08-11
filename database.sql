@@ -34,13 +34,13 @@ CREATE TABLE IF NOT EXISTS peserta (
   whatsapp VARCHAR(20) NOT NULL,
 
   -- Persetujuan admin (kuota terbatas)
-  -- Barcode hanya dikirim setelah status_acc = 'diterima'
+  -- QR Code hanya dikirim setelah status_acc = 'diterima'
   status_acc ENUM('pending','diterima','ditolak') NOT NULL DEFAULT 'pending',
   acc_at DATETIME NULL,
   acc_oleh VARCHAR(50) NULL,
   catatan_acc VARCHAR(255) NULL,
 
-  -- Tahap 1: daftar ulang (scan barcode dari layar HP)
+  -- Tahap 1: daftar ulang (scan QR Code dari layar HP)
   status ENUM('belum_hadir','hadir') NOT NULL DEFAULT 'belum_hadir',
   checkin_at DATETIME NULL,
 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS peserta (
   gelang_dicetak TINYINT(1) NOT NULL DEFAULT 0,
   gelang_dicetak_at DATETIME NULL,
 
-  -- Tahap 2: masuk ruangan (scan barcode dari gelang)
+  -- Tahap 2: masuk ruangan (scan QR Code dari gelang)
   status_masuk ENUM('belum_masuk','masuk') NOT NULL DEFAULT 'belum_masuk',
   masuk_at DATETIME NULL,
 

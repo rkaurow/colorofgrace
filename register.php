@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo->prepare('UPDATE peserta SET kode = ? WHERE id = ?')->execute([$kode, $id]);
             $pdo->commit();
 
-            // Barcode BELUM dibuat/dikirim — menunggu persetujuan panitia.
+            // QR Code BELUM dibuat/dikirim — menunggu persetujuan panitia.
             // Peserta hanya menerima email konfirmasi bahwa data sudah masuk.
             $peserta = cari_peserta_by_id($id);
             if ($peserta) {
@@ -215,7 +215,7 @@ tailwind.config = {
       <div class="mt-6 flex gap-3 rounded-2xl border p-4" style="border-color:rgba(217,164,65,.35);background:rgba(217,164,65,.08)">
         <svg class="mt-0.5 h-5 w-5 flex-shrink-0" fill="none" stroke="#D9A441" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 21a9 9 0 100-18 9 9 0 000 18z"/></svg>
         <p class="text-sm leading-relaxed text-slate-700">
-          Pendaftaran akan <strong>ditinjau panitia</strong> terlebih dahulu. Barcode dikirim ke email setelah disetujui.
+          Pendaftaran akan <strong>ditinjau panitia</strong> terlebih dahulu. QR Code dikirim ke email setelah disetujui.
         </p>
       </div>
 
@@ -243,7 +243,7 @@ tailwind.config = {
           <input type="email" id="email" name="email" required maxlength="150"
                  value="<?= e($old['email']) ?>" placeholder="Masukkan alamat email"
                  class="<?= kls_input($errors, 'email') ?>">
-          <p class="mt-2 text-xs text-slate-400">Konfirmasi dan barcode tiket dikirim ke alamat ini setelah pendaftaranmu disetujui panitia.</p>
+          <p class="mt-2 text-xs text-slate-400">Konfirmasi dan QR Code tiket dikirim ke alamat ini setelah pendaftaranmu disetujui panitia.</p>
           <?php if (isset($errors['email'])): ?>
             <p class="mt-2 text-sm font-medium text-red-600"><?= e($errors['email']) ?></p>
           <?php endif; ?>

@@ -14,7 +14,7 @@ $terbaru = db()->query(
 $selisihHari = (int) floor((strtotime(EVENT_DATE) - strtotime(date('Y-m-d'))) / 86400);
 
 // Progres kehadiran diukur terhadap peserta yang diterima, bukan total pendaftar,
-// karena hanya peserta diterima yang punya barcode dan bisa hadir.
+// karena hanya peserta diterima yang punya QR Code dan bisa hadir.
 $basis  = (int) $stat['diterima'];
 $persen = static fn(int $bagian): float =>
     $basis > 0 ? round($bagian / $basis * 100, 1) : 0.0;
@@ -82,9 +82,9 @@ require_once __DIR__ . '/../includes/header.php';
             <?= $nilai > 0 ? 'Perlu ditinjau &rarr;' : 'Tidak ada antrean' ?>
           </p>
         <?php elseif ($label === 'Diterima'): ?>
-          <p class="mt-1 text-xs text-slate-400">Sudah dapat barcode</p>
+          <p class="mt-1 text-xs text-slate-400">Sudah dapat QR Code</p>
         <?php else: ?>
-          <p class="mt-1 text-xs text-slate-400">Tidak dapat barcode</p>
+          <p class="mt-1 text-xs text-slate-400">Tidak dapat QR Code</p>
         <?php endif; ?>
       </a>
       <?php endforeach; ?>

@@ -1,24 +1,29 @@
-# Graph Report - coiministry  (2026-08-10)
+# Graph Report - coiministry  (2026-08-11)
 
 ## Corpus Check
-- 55 files · ~367,697 words
+- 56 files · ~367,439 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 250 nodes · 247 edges · 51 communities (40 shown, 11 thin omitted)
-- Extraction: 89% EXTRACTED · 11% INFERRED · 0% AMBIGUOUS · INFERRED: 26 edges (avg confidence: 0.8)
+- 252 nodes · 246 edges · 51 communities (40 shown, 11 thin omitted)
+- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 25 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
+
+## Graph Freshness
+- Built from commit: `896938f7`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - functions.php
-- auth.php
+- db
 - Panduan Deploy ke VPS
 - mailer.php
-- barcode.php
+- require
 - Instalasi di VPS (Ubuntu 22.04 / 24.04)
 - COI Ministry — Sistem Registrasi & Check-in Acara
 - Check-in Flow
-- Barcode Generation
+- QR Code Generation
 - Testing Checklist
 - Participants Module
 - Wristband Printing
@@ -51,22 +56,22 @@
 3. `db()` - 10 edges
 4. `COI Ministry — Sistem Registrasi & Check-in Acara` - 9 edges
 5. `Check-in Flow` - 9 edges
-6. `kirim_barcode_peserta()` - 7 edges
+6. `kirim_qr_peserta()` - 7 edges
 7. `kirim_email_ditolak()` - 7 edges
-8. `Barcode Generation` - 7 edges
+8. `QR Code Generation` - 7 edges
 9. `Testing Checklist` - 7 edges
 10. `setujui_peserta()` - 6 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `admin_login()` --calls--> `db()`  [INFERRED]
-  includes/auth.php → config/database.php
-- `setujui_peserta()` --calls--> `buat_barcode_peserta()`  [INFERRED]
-  admin/approval.php → includes/barcode.php
-- `setujui_peserta()` --calls--> `kirim_barcode_peserta()`  [INFERRED]
+- `setujui_peserta()` --calls--> `kirim_qr_peserta()`  [INFERRED]
   admin/approval.php → includes/mailer.php
 - `tolak_peserta()` --calls--> `kirim_email_ditolak()`  [INFERRED]
   admin/approval.php → includes/mailer.php
+- `admin_login()` --calls--> `db()`  [INFERRED]
+  includes/auth.php → config/database.php
 - `jumlah_diterima()` --calls--> `db()`  [INFERRED]
+  includes/functions.php → config/database.php
+- `statistik_peserta()` --calls--> `db()`  [INFERRED]
   includes/functions.php → config/database.php
 
 ## Import Cycles
@@ -75,24 +80,24 @@
 ## Communities (51 total, 11 thin omitted)
 
 ### Community 0 - "functions.php"
-Cohesion: 0.10
-Nodes (17): setujui_peserta(), tolak_peserta(), url_hal(), db(), cari_peserta_by_id(), cari_peserta_by_kode(), csrf_field(), csrf_require() (+9 more)
+Cohesion: 0.09
+Nodes (14): url_hal(), admin_logged_in(), require_admin(), require_admin_json(), csrf_field(), csrf_require(), csrf_token(), csrf_verify() (+6 more)
 
-### Community 1 - "auth.php"
+### Community 1 - "db"
 Cohesion: 0.16
-Nodes (7): admin_logged_in(), admin_login(), require_admin(), require_admin_json(), flash_set(), json_response(), redirect()
+Nodes (14): setujui_peserta(), tolak_peserta(), db(), admin_login(), cari_peserta_by_id(), cari_peserta_by_kode(), jumlah_diterima(), normalisasi_kode() (+6 more)
 
 ### Community 2 - "Panduan Deploy ke VPS"
 Cohesion: 0.11
 Nodes (18): 0. Cek server, 10. Pasang SSL (HTTPS), 11. Buat akun admin, 12. Aktifkan email, 13. Uji sebelum sebar link, 14. Backup otomatis, 1. Update & pasang paket, 2. Amankan MySQL (+10 more)
 
 ### Community 3 - "mailer.php"
-Cohesion: 0.44
-Nodes (10): e(), kirim_barcode_peserta(), kirim_email_ditolak(), kirim_email_pending(), kirim_polos_phpmailer(), kirim_via_mail(), kirim_via_phpmailer(), muat_phpmailer() (+2 more)
+Cohesion: 0.41
+Nodes (11): e(), kirim_email_ditolak(), kirim_email_pending(), kirim_polos_phpmailer(), kirim_qr_peserta(), kirim_via_mail(), kirim_via_phpmailer(), muat_phpmailer() (+3 more)
 
-### Community 4 - "barcode.php"
-Cohesion: 0.46
-Nodes (7): barcode_data_uri(), buat_barcode_peserta(), code128_encode(), code128_ke_png(), code128_patterns(), url_barcode_peserta(), normalisasi_kode()
+### Community 4 - "require"
+Cohesion: 0.50
+Nodes (3): require, chillerlan/php-qrcode, phpmailer/phpmailer
 
 ### Community 22 - "Instalasi di VPS (Ubuntu 22.04 / 24.04)"
 Cohesion: 0.11
@@ -104,11 +109,11 @@ Nodes (11): Alur Sistem, Catatan Perangkat Keras, COI Ministry — Sistem Regist
 
 ### Community 24 - "Check-in Flow"
 Cohesion: 0.17
-Nodes (11): Alur Lengkap di Lapangan, Aturan Penting, Cadangan, Cara Kerja Mesin Barcode, Check-in Flow, Logika Validasi Tahap 1, Logika Validasi Tahap 2, Perilaku Field Scan (+3 more)
+Nodes (11): Alur Lengkap di Lapangan, Aturan Penting, Cadangan, Cara Kerja Scanner QR, Check-in Flow, Logika Validasi Tahap 1, Logika Validasi Tahap 2, Perilaku Field Scan (+3 more)
 
-### Community 25 - "Barcode Generation"
+### Community 25 - "QR Code Generation"
 Cohesion: 0.25
-Nodes (7): Barcode Generation, Dua Media Barcode, Format Kode, Keterbacaan dari Layar Ponsel, Penyimpanan, Simbologi, Spesifikasi Gambar untuk Email
+Nodes (7): Dua Media QR Code, Format Kode, Keterbacaan dari Layar Ponsel, Penyimpanan, QR Code Generation, Simbologi, Spesifikasi Gambar untuk Email
 
 ### Community 26 - "Testing Checklist"
 Cohesion: 0.25
@@ -116,11 +121,11 @@ Nodes (7): Admin, Cetak Gelang, Pendaftaran, Tahap 1 — Daftar Ulang, Tahap 2 �
 
 ### Community 27 - "Participants Module"
 Cohesion: 0.29
-Nodes (6): Cetak Gelang, Fitur Pendukung, Kirim Barcode, Kolom Tabel, Participants Module, Tombol Aksi
+Nodes (6): Cetak Gelang, Fitur Pendukung, Kirim Ulang QR, Kolom Tabel, Participants Module, Tombol Aksi
 
 ### Community 28 - "Wristband Printing"
 Cohesion: 0.29
-Nodes (6): Alur Cetak, Aturan Penting, Dimensi Barcode di Gelang, Isi Gelang, Spesifikasi Cetak, Wristband Printing
+Nodes (6): Alur Cetak, Aturan Penting, Dimensi QR Code di Gelang, Isi Gelang, Spesifikasi Cetak, Wristband Printing
 
 ### Community 29 - "Database"
 Cohesion: 0.33
@@ -132,7 +137,7 @@ Nodes (5): Aturan Penting, Field Form, Langkah Pengguna, Registration Flow, Urut
 
 ### Community 31 - "Email Service"
 Cohesion: 0.33
-Nodes (5): Aturan Tampilan Barcode di Email, Email Service, Isi Email, Pemicu Pengiriman, Penanganan Kegagalan
+Nodes (5): Aturan Tampilan QR Code di Email, Email Service, Isi Email, Pemicu Pengiriman, Penanganan Kegagalan
 
 ### Community 32 - "Admin Dashboard"
 Cohesion: 0.33
@@ -167,24 +172,24 @@ Cohesion: 0.50
 Nodes (3): Alur Utama, Goals, Sasaran
 
 ## Knowledge Gaps
-- **114 isolated node(s):** `0. Cek server`, `1. Update & pasang paket`, `2. Amankan MySQL`, `3. Buat database & user khusus`, `4. Upload file` (+109 more)
+- **116 isolated node(s):** `phpmailer/phpmailer`, `chillerlan/php-qrcode`, `0. Cek server`, `1. Update & pasang paket`, `2. Amankan MySQL` (+111 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **11 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `db()` connect `functions.php` to `auth.php`?**
-  _High betweenness centrality (0.013) - this node is a cross-community bridge._
 - **Why does `Instalasi di VPS (Ubuntu 22.04 / 24.04)` connect `Instalasi di VPS (Ubuntu 22.04 / 24.04)` to `COI Ministry — Sistem Registrasi & Check-in Acara`?**
   _High betweenness centrality (0.011) - this node is a cross-community bridge._
 - **Why does `COI Ministry — Sistem Registrasi & Check-in Acara` connect `COI Ministry — Sistem Registrasi & Check-in Acara` to `Instalasi di VPS (Ubuntu 22.04 / 24.04)`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **Are the 8 inferred relationships involving `db()` (e.g. with `setujui_peserta()` and `tolak_peserta()`) actually correct?**
   _`db()` has 8 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `0. Cek server`, `1. Update & pasang paket`, `2. Amankan MySQL` to the rest of the system?**
-  _114 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `phpmailer/phpmailer`, `chillerlan/php-qrcode`, `0. Cek server` to the rest of the system?**
+  _116 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `functions.php` be split into smaller, more focused modules?**
-  _Cohesion score 0.10256410256410256 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08994708994708994 - nodes in this community are weakly interconnected._
 - **Should `Panduan Deploy ke VPS` be split into smaller, more focused modules?**
   _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
+- **Should `Instalasi di VPS (Ubuntu 22.04 / 24.04)` be split into smaller, more focused modules?**
+  _Cohesion score 0.1111111111111111 - nodes in this community are weakly interconnected._

@@ -1,6 +1,6 @@
 # COI Ministry — Sistem Registrasi & Check-in Acara
 
-Aplikasi pendaftaran peserta dengan barcode Code 128 dan check-in dua tahap untuk acara **Color of Grace — 22 Agustus 2026**.
+Aplikasi pendaftaran peserta dengan QR Code dan check-in dua tahap untuk acara **Color of Grace — 22 Agustus 2026**.
 
 ---
 
@@ -9,13 +9,13 @@ Aplikasi pendaftaran peserta dengan barcode Code 128 dan check-in dua tahap untu
 ```
 Peserta daftar online
         ↓
-Barcode Code 128 dikirim ke email
+QR Code dikirim ke email
         ↓
-TAHAP 1 — Daftar ulang   (scan barcode dari LAYAR HP)   → status = hadir
+TAHAP 1 — Daftar ulang   (scan QR Code dari LAYAR HP)   → status = hadir
         ↓
-Cetak gelang berisi barcode yang sama
+Cetak gelang berisi QR Code yang sama
         ↓
-TAHAP 2 — Masuk ruangan  (scan barcode dari GELANG)     → status_masuk = masuk
+TAHAP 2 — Masuk ruangan  (scan QR Code dari GELANG)     → status_masuk = masuk
 ```
 
 Peserta yang belum menyelesaikan tahap 1 **ditolak** di tahap 2 dan diarahkan kembali ke meja registrasi.
@@ -27,7 +27,7 @@ Peserta yang belum menyelesaikan tahap 1 **ditolak** di tahap 2 dan diarahkan ke
 | Komponen | Versi Minimum | Keterangan |
 |---|---|---|
 | PHP | 8.0+ | Disarankan 8.2 atau 8.3 |
-| Ekstensi `gd` | — | **Wajib** — untuk generate gambar barcode |
+| Ekstensi `gd` | — | **Wajib** — untuk generate gambar QR Code |
 | Ekstensi `pdo_mysql` | — | **Wajib** — koneksi database |
 | Ekstensi `mbstring` | — | Wajib |
 | Ekstensi `curl` | — | Wajib untuk pengiriman email SMTP |
@@ -60,7 +60,8 @@ apt install -y \
   php8.3-xml \
   php8.3-zip \
   unzip \
-  git
+  git \
+  composer
 ```
 
 > Jika `php8.3` tidak tersedia, ganti dengan `php8.2` atau `php8.1` — semua kompatibel.
@@ -73,7 +74,7 @@ php -m | grep -E "^(gd|pdo_mysql|mbstring|curl)$"
 ```
 
 Harus muncul keempat baris: `gd`, `pdo_mysql`, `mbstring`, `curl`.  
-Tanpa `gd`, barcode tidak bisa dibuat.
+Tanpa `gd`, QR Code tidak bisa dibuat.
 
 **Aktifkan dan jalankan layanan:**
 
@@ -132,7 +133,7 @@ cd ~/Developer/coiministry
 
 rsync -avz \
   --exclude '.git' \
-  --exclude 'assets/barcode/*.png' \
+  --exclude 'assets/qr/*.png' \
   --exclude 'graphify-out/' \
   ./ root@IP_SERVER:/var/www/coiministry/
 ```
@@ -152,10 +153,10 @@ Kembali ke **server**:
 ```bash
 chown -R www-data:www-data /var/www/coiministry
 chmod -R 755 /var/www/coiministry
-chmod -R 775 /var/www/coiministry/assets/barcode
+chmod -R 775 /var/www/coiministry/assets/qr
 ```
 
-Folder `assets/barcode` harus bisa ditulis karena barcode di-generate saat pendaftaran.
+Folder `assets/qr` harus bisa ditulis karena QR Code di-generate saat email dikirim.
 
 ---
 
@@ -236,29 +237,38 @@ define('MAIL_FROM_NAME', 'COI Ministry');
 
 ---
 
-### 8. Pasang PHPMailer
+### 8. Pasang dependency email dan QR Code dengan Composer
 
-**Dengan Composer (direkomendasikan):**
+Karena server menggunakan Ubuntu, pasang Composer dari repository Ubuntu:
+
+```bash
+apt install -y composer
+composer --version
+```
+
+Setelah `composer.json` dan `composer.lock` ikut ter-upload ke server, pasang dependency project:
 
 ```bash
 cd /var/www/coiministry
-curl -sS https://getcomposer.org/installer | php
-php composer.phar require phpmailer/phpmailer
+composer install --no-dev --optimize-autoloader
 ```
 
-**Tanpa Composer (manual):**
+Verifikasi PHPMailer dan library QR Code berhasil dimuat:
 
 ```bash
-mkdir -p /var/www/coiministry/vendor/PHPMailer/src
-cd /tmp
-curl -L https://github.com/PHPMailer/PHPMailer/archive/refs/heads/master.zip -o phpmailer.zip
-unzip phpmailer.zip
-cp PHPMailer-master/src/PHPMailer.php /var/www/coiministry/vendor/PHPMailer/src/
-cp PHPMailer-master/src/SMTP.php      /var/www/coiministry/vendor/PHPMailer/src/
-cp PHPMailer-master/src/Exception.php /var/www/coiministry/vendor/PHPMailer/src/
+test -f vendor/autoload.php && echo "Composer autoload OK"
+php -r "require 'vendor/autoload.php'; exit(class_exists('PHPMailer\\\\PHPMailer\\\\PHPMailer') ? 0 : 1);"
+php -r "require 'vendor/autoload.php'; exit(class_exists('chillerlan\\\\QRCode\\\\QRCode') ? 0 : 1);"
 ```
 
-> Generator barcode ditulis mandiri di `includes/barcode.php` — **tidak memerlukan library eksternal**.
+Jika `composer.json` belum ada di server, jalankan sekali:
+
+```bash
+cd /var/www/coiministry
+composer require phpmailer/phpmailer chillerlan/php-qrcode:^4.4
+```
+
+> Generator QR Code memakai `chillerlan/php-qrcode` dan membutuhkan ekstensi `gd` serta `mbstring`.
 
 ---
 
@@ -293,8 +303,8 @@ server {
         return 404;
     }
 
-    # Cegah eksekusi PHP di folder barcode
-    location ~ ^/assets/barcode/.*\.php$ {
+    # Cegah eksekusi PHP di folder QR Code
+    location ~ ^/assets/qr/.*\.php$ {
         deny all;
         return 404;
     }
@@ -382,8 +392,8 @@ systemctl status php8.3-fpm
 # Cek MySQL berjalan
 systemctl status mysql
 
-# Cek izin folder barcode
-ls -la /var/www/coiministry/assets/barcode/
+# Cek izin folder QR Code
+ls -la /var/www/coiministry/assets/qr/
 
 # Cek log error jika ada masalah
 tail -f /var/log/nginx/error.log
@@ -442,7 +452,7 @@ config/
 includes/
   functions.php         Helper umum, CSRF, format
   auth.php              Login & proteksi halaman admin
-  barcode.php           Generator Code 128 mandiri (tanpa library)
+  qrcode.php            Generator QR Code berbasis Composer
   mailer.php            Pengiriman email
   scan-ui.php           Komponen halaman scan
   header.php            Navigasi admin
@@ -456,13 +466,13 @@ admin/
   checkin.php           TAHAP 1 — scan layar HP
   scan-process.php      Endpoint validasi scan (JSON)
   cari-peserta.php      Pencarian nama
-  send-barcode.php      Kirim ulang barcode
+  send-barcode.php      Kirim ulang QR Code
   export.php            Export CSV
   logout.php
 
 assets/
   img/                  Logo dan gambar acara
-  barcode/              Hasil generate barcode (ditulis otomatis)
+  qr/                   Hasil generate QR Code (ditulis otomatis)
 ```
 
 ---
@@ -486,14 +496,14 @@ Scanner harus dalam mode **keyboard wedge (HID)** — mengetik kode lalu menekan
 
 **Meja registrasi** — buka `admin/checkin.php`
 1. Pastikan kolom scan aktif. Bila muncul peringatan, klik kolomnya.
-2. Pindai barcode dari layar HP peserta.
+2. Pindai QR Code dari layar HP peserta.
 3. Hijau = berhasil, kuning = sudah pernah daftar ulang, merah = tidak valid.
 
 **Pintu masuk** — buka `admin/masuk.php`
-1. Pindai barcode pada gelang peserta.
+1. Pindai QR Code pada gelang peserta.
 2. Bila muncul **"Belum daftar ulang"**, arahkan peserta ke meja registrasi.
 
-Bila peserta lupa membawa barcode, gunakan **pencarian nama** di panel admin.
+Bila peserta lupa membawa QR Code, gunakan **pencarian nama** di panel admin.
 
 ---
 
@@ -505,7 +515,7 @@ Bila peserta lupa membawa barcode, gunakan **pencarian nama** di panel admin.
 - `session_regenerate_id()` setelah login
 - Login dikunci 5 menit setelah 5 percobaan gagal
 - Semua output di-escape dengan `htmlspecialchars()`
-- Folder `config/` dan `assets/barcode/` dilindungi `.htaccess`
+- Folder `config/` dan `assets/qr/` dilindungi konfigurasi web server
 
 **Checklist sebelum go-live:**
 

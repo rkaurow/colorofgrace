@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../includes/auth.php';
 require_admin();
 
-require_once __DIR__ . '/../includes/barcode.php';
+require_once __DIR__ . '/../includes/qrcode.php';
 require_once __DIR__ . '/../includes/mailer.php';
 
 /**
@@ -43,23 +43,23 @@ function setujui_peserta(int $id, string $olehAdmin): array
         return ['ok' => false, 'pesan' => 'Terjadi kesalahan saat menyimpan data.'];
     }
 
-    // Barcode & email dikerjakan di luar transaksi.
+    // QR Code & email dikerjakan di luar transaksi.
     // Kegagalan di sini tidak membatalkan persetujuan — admin bisa kirim ulang.
     $peserta = cari_peserta_by_id($id);
     if (!$peserta) {
         return ['ok' => true, 'pesan' => 'Peserta disetujui.'];
     }
 
-    if (buat_barcode_peserta($peserta['kode']) === null) {
-        return ['ok' => true, 'pesan' => 'Peserta disetujui, tetapi barcode gagal dibuat (periksa ekstensi GD).'];
+    if (buat_qr_peserta($peserta['kode']) === null) {
+        return ['ok' => true, 'pesan' => 'Peserta disetujui, tetapi QR Code gagal dibuat (periksa Composer dan ekstensi GD).'];
     }
 
-    if (kirim_barcode_peserta($peserta)) {
+    if (kirim_qr_peserta($peserta)) {
         tandai_email_terkirim($id);
-        return ['ok' => true, 'pesan' => 'Peserta disetujui dan barcode terkirim.'];
+        return ['ok' => true, 'pesan' => 'Peserta disetujui dan QR Code terkirim.'];
     }
 
-    return ['ok' => true, 'pesan' => 'Peserta disetujui, tetapi email belum terkirim. Gunakan tombol kirim ulang.'];
+    return ['ok' => true, 'pesan' => 'Peserta disetujui, tetapi email belum terkirim. Gunakan tombol kirim ulang QR Code.'];
 }
 
 /**
@@ -196,7 +196,7 @@ require_once __DIR__ . '/../includes/header.php';
     <div>
       <h1 class="font-display text-3xl font-black text-slate-900">Approval Pendaftaran</h1>
       <p class="mt-1 text-sm text-slate-500">
-        Setujui pendaftaran satu per satu. Barcode dikirim otomatis ke email setelah disetujui.
+        Setujui pendaftaran satu per satu. QR Code dikirim otomatis ke email setelah disetujui.
       </p>
     </div>
 
@@ -347,12 +347,13 @@ require_once __DIR__ . '/../includes/header.php';
 
                       <?php elseif ($status === 'diterima'): ?>
                         <span class="rounded-lg bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700">
-                          <?= !empty($p['email_sent_at']) ? 'Barcode terkirim' : 'Email tertunda' ?>
+                          <?= !empty($p['email_sent_at']) ? 'QR Code terkirim' : 'Email tertunda' ?>
                         </span>
-                        <a href="<?= e(BASE_URL) ?>/admin/send-barcode.php?id=<?= (int) $p['id'] ?>"
-                           class="rounded-lg bg-white px-3 py-1.5 text-xs font-bold text-slate-600 ring-1 ring-slate-200 transition hover:bg-slate-50">
-                          Kirim Ulang
-                        </a>
+                        <button type="submit" form="form-kirim-qr-<?= (int) $p['id'] ?>"
+                                onclick="return confirm('Kirim ulang QR Code ke <?= e(addslashes($p['email'])) ?>?');"
+                                class="rounded-lg bg-white px-3 py-1.5 text-xs font-bold text-slate-600 ring-1 ring-slate-200 transition hover:bg-slate-50">
+                          Kirim Ulang QR
+                        </button>
 
                       <?php else: ?>
                         <span class="text-xs text-slate-400">
@@ -374,6 +375,17 @@ require_once __DIR__ . '/../includes/header.php';
         </p>
       <?php endif; ?>
     </form>
+
+    <?php if ($status === 'diterima'): ?>
+      <?php foreach ($daftar as $p): ?>
+        <form id="form-kirim-qr-<?= (int) $p['id'] ?>" method="post"
+              action="<?= e(BASE_URL) ?>/admin/send-barcode.php" class="hidden">
+          <?= csrf_field() ?>
+          <input type="hidden" name="peserta_id" value="<?= (int) $p['id'] ?>">
+          <input type="hidden" name="kembali" value="approval">
+        </form>
+      <?php endforeach; ?>
+    <?php endif; ?>
 
   <?php endif; ?>
 </main>

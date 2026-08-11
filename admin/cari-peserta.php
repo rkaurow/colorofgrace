@@ -1,6 +1,6 @@
 <?php
 /**
- * Pencarian peserta berdasarkan nama (cadangan saat barcode tidak terbaca).
+ * Pencarian peserta berdasarkan nama (cadangan saat QR Code tidak terbaca).
  * GET: q
  */
 

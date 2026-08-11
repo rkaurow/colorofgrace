@@ -5,29 +5,29 @@ Menggunakan PHPMailer dengan SMTP (Gmail App Password atau Brevo). Konfigurasi d
 ## Pemicu Pengiriman
 
 1. **Otomatis** — setelah pendaftaran berhasil disimpan.
-2. **Manual** — saat admin menekan tombol **Kirim Barcode** di list peserta.
+2. **Manual** — saat admin menekan tombol **Kirim Ulang QR** di list peserta atau halaman approval.
 
-Keduanya memanggil fungsi yang sama, misalnya `kirimBarcodePeserta($peserta)`.
+Keduanya memanggil fungsi yang sama, yaitu `kirim_qr_peserta($peserta)`.
 
 ## Isi Email
 
-- Subjek: `Barcode Pendaftaran - <Nama Acara>`
+- Subjek: `QR Code Pendaftaran - <Nama Acara>`
 - Sapaan dengan nama peserta
 - Detail pendaftaran: nama, asal gereja, email, WhatsApp, kode peserta
-- **Gambar barcode Code 128** ditanam sebagai inline attachment (CID), bukan link eksternal
-- Barcode juga dilampirkan sebagai file PNG agar mudah disimpan di galeri
+- **Gambar QR Code** ditanam sebagai inline attachment (CID), bukan link eksternal
+- QR Code dikirim sebagai file PNG agar mudah disimpan di galeri
 - **Kode peserta ditulis sebagai teks** di bawah gambar, sebagai cadangan bila pemindaian gagal
-- Instruksi: barcode wajib ditunjukkan kepada panitia saat check-in
-- Saran agar peserta menaikkan kecerahan layar atau mencetak barcode
+- Instruksi: QR Code wajib ditunjukkan kepada panitia saat check-in
+- Saran agar peserta menaikkan kecerahan layar atau mencetak QR Code
 - Template HTML responsif dengan fallback teks biasa
 
-## Aturan Tampilan Barcode di Email
+## Aturan Tampilan QR Code di Email
 
-Barcode 1D lebih sensitif terhadap distorsi dibanding QR, sehingga:
+QR Code harus tetap tajam dan memiliki quiet zone yang cukup, sehingga:
 
-- Gambar tidak boleh diperkecil oleh CSS. Gunakan lebar asli dengan `max-width` yang cukup besar.
-- Latar belakang di sekitar barcode harus putih polos, menjaga quiet zone tetap bersih.
-- Hindari border, bayangan, atau warna latar pada container barcode.
+- Gambar tidak boleh diperkecil berlebihan oleh CSS. Gunakan ukuran asli dengan `max-width` yang cukup besar.
+- Latar belakang di sekitar QR Code harus putih polos, menjaga quiet zone tetap bersih.
+- Hindari border, bayangan, atau warna latar pada container QR Code.
 
 ## Penanganan Kegagalan
 

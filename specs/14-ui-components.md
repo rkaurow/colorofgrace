@@ -8,7 +8,7 @@ Menggunakan Bootstrap 5. Seluruh halaman responsif dan mengutamakan tampilan mob
 |---|---|
 | Landing | Hero informasi acara, tombol **Daftar Sekarang** |
 | Registrasi | Card berisi form 5 field, label jelas, pesan error per field |
-| Sukses | Alert hijau berisi pemberitahuan barcode dikirim ke email |
+| Sukses | Alert hijau berisi pemberitahuan QR Code dikirim ke email |
 
 ## Halaman Admin
 
@@ -16,7 +16,7 @@ Menggunakan Bootstrap 5. Seluruh halaman responsif dan mengutamakan tampilan mob
 |---|---|
 | Login | Card form terpusat, alert error |
 | Dashboard | Lima kartu statistik mengikuti urutan corong kehadiran |
-| Peserta | Tabel responsif, input pencarian, filter status, badge status, tombol kirim barcode & cetak gelang, modal konfirmasi, pagination |
+| Peserta | Tabel responsif, input pencarian, filter status, badge status, tombol kirim ulang QR & cetak gelang, modal konfirmasi, pagination |
 | Daftar Ulang | Field scan ter-fokus otomatis, panel hasil besar, tombol Cetak Gelang, tombol kamera cadangan, counter |
 | Masuk Ruangan | Field scan ter-fokus otomatis, panel hasil besar, counter |
 | Cetak Gelang | Layout khusus cetak, tanpa elemen antarmuka |

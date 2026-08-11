@@ -27,7 +27,7 @@ define('KODE_PREFIX', 'COI-');
 // Path
 // ---------------------------------------------------------
 define('BASE_PATH', dirname(__DIR__));
-define('BARCODE_PATH', BASE_PATH . '/assets/barcode');
+define('QR_PATH', BASE_PATH . '/assets/qr');
 
 // ---------------------------------------------------------
 // Base URL — otomatis, biasanya tidak perlu diubah

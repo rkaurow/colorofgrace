@@ -16,7 +16,7 @@ Hanya ada satu peran: **admin**. Peserta tidak memiliki akun.
 - File `/includes/auth.php` memeriksa keberadaan session admin.
 - Disertakan di bagian paling atas setiap halaman `/admin` kecuali `login.php`.
 - Bila tidak terautentikasi, redirect ke halaman login dan hentikan eksekusi dengan `exit`.
-- Endpoint pemroses (scan dan kirim barcode) juga wajib melewati pemeriksaan ini.
+- Endpoint pemroses (scan dan kirim QR Code) juga wajib melewati pemeriksaan ini.
 
 ## Logout
 

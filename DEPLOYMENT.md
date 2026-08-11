@@ -30,7 +30,7 @@ Kalau `php8.3` tidak ditemukan, coba `php8.2` atau `php8.1` — semua kompatibel
 php -v && php -m | grep -E "^(gd|pdo_mysql)$"
 ```
 
-Harus muncul `gd` dan `pdo_mysql`. Tanpa `gd`, barcode tidak bisa dibuat.
+Harus muncul `gd` dan `pdo_mysql`. Tanpa `gd`, QR Code tidak bisa dibuat.
 
 ---
 
@@ -75,7 +75,7 @@ Dari **Mac kamu** (bukan server), di terminal baru:
 
 ```bash
 cd ~/Developer/coiministry
-rsync -avz --exclude '.git' --exclude 'assets/barcode/*.png' \
+rsync -avz --exclude '.git' --exclude 'assets/qr/*.png' \
   ./ root@IP_SERVER:/var/www/coiministry/
 ```
 
@@ -90,10 +90,10 @@ Kembali ke **server**:
 ```bash
 chown -R www-data:www-data /var/www/coiministry
 chmod -R 755 /var/www/coiministry
-chmod -R 775 /var/www/coiministry/assets/barcode
+chmod -R 775 /var/www/coiministry/assets/qr
 ```
 
-Folder `assets/barcode` harus bisa ditulis, karena barcode di-generate saat pendaftaran.
+Folder `assets/qr` harus bisa ditulis, karena QR Code di-generate saat email dikirim.
 
 ---
 
@@ -163,8 +163,8 @@ server {
         return 404;
     }
 
-    # Cegah eksekusi PHP di folder barcode
-    location ~ ^/assets/barcode/.*\.php$ {
+    # Cegah eksekusi PHP di folder QR Code
+    location ~ ^/assets/qr/.*\.php$ {
         deny all;
         return 404;
     }
@@ -252,11 +252,11 @@ Butuh **App Password** Gmail (bukan password biasa):
 2. Buka myaccount.google.com/apppasswords
 3. Buat password baru, salin 16 karakternya
 
-Pasang PHPMailer agar email tidak masuk spam:
+Pasang dependency email dan QR Code:
 ```bash
 cd /var/www/coiministry
 apt install -y composer
-composer require phpmailer/phpmailer
+composer install --no-dev --optimize-autoloader
 chown -R www-data:www-data vendor
 ```
 
@@ -267,14 +267,14 @@ chown -R www-data:www-data vendor
 | # | Yang dites | Cara |
 |---|---|---|
 | 1 | Pendaftaran | Daftar pakai email pribadimu di `/register.php` |
-| 2 | Email masuk | Cek inbox — barcode harus terlampir |
+| 2 | Email masuk | Cek inbox — QR Code harus tampil |
 | 3 | Login admin | `/admin/login.php` |
 | 4 | Data tampil | `/admin/peserta.php` |
 | 5 | Scan tahap 1 | `/admin/checkin.php` → ketik kode + Enter |
 | 6 | Cetak gelang | Klik tombol Cetak Gelang |
 | 7 | Scan tahap 2 | `/admin/masuk.php` → kode yang sama + Enter |
 
-Mengetik kode manual = identik dengan hasil scan, karena scanner barcode bekerja seperti keyboard.
+Mengetik kode manual = identik dengan hasil scan, karena scanner QR 2D bekerja seperti keyboard.
 
 ---
 
@@ -305,7 +305,7 @@ scp root@IP_SERVER:/root/backup/*.sql ~/Downloads/
 - [ ] `install.php` sudah dihapus
 - [ ] `DEBUG_MODE` = `false`
 - [ ] Email uji benar-benar diterima
-- [ ] Barcode di email bisa dipindai
+- [ ] QR Code di email bisa dipindai
 - [ ] Backup berjalan
 
 ---

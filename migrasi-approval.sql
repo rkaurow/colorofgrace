@@ -23,7 +23,7 @@ ALTER TABLE peserta
 ALTER TABLE peserta MODIFY info_dari VARCHAR(100) NULL;
 
 -- Peserta yang sudah terdaftar sebelum fitur ini ada
--- dianggap sudah disetujui, agar barcode mereka tetap sah.
+-- dianggap sudah disetujui, agar QR Code mereka tetap sah.
 UPDATE peserta
    SET status_acc = 'diterima',
        acc_at     = COALESCE(acc_at, created_at),

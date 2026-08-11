@@ -6,13 +6,13 @@
 | UI | Bootstrap 5 | Via CDN |
 | Database | MySQL | InnoDB, utf8mb4 |
 | Email | PHPMailer | SMTP Gmail App Password / Brevo |
-| Barcode | `picqer/php-barcode-generator` | Barcode 1D **Code 128**, output PNG |
-| Scanner | Mesin barcode USB (keyboard wedge) | Perangkat keras, tanpa driver khusus |
-| Scanner cadangan | `html5-qrcode` | Opsional, hanya bila mesin barcode tidak tersedia |
+| QR Code | `chillerlan/php-qrcode` | QR Code 2D, output PNG |
+| Scanner | Scanner image/2D USB (keyboard wedge) | Perangkat keras, tanpa driver khusus |
+| Scanner cadangan | Input kode manual | Opsional, bila scanner USB tidak tersedia |
 | Hosting | InfinityFree | Shared hosting, tanpa akses Composer |
 
 ## Catatan
 
-- Library barcode diunggah manual ke `/vendor` karena InfinityFree tidak menyediakan Composer.
+- Library QR Code dan PHPMailer diunggah manual ke `/vendor` karena InfinityFree tidak menyediakan Composer.
 - Pastikan library yang dipilih tidak bergantung pada ekstensi PHP yang dinonaktifkan di shared hosting. Output PNG memerlukan ekstensi **GD**.
-- Panitia disarankan memakai scanner tipe **image/2D**, bukan laser, agar barcode tetap terbaca dari layar ponsel.
+- Panitia disarankan memakai scanner tipe **image/2D**, bukan laser, agar QR Code tetap terbaca dari layar ponsel.

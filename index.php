@@ -447,9 +447,9 @@ tailwind.config = {
             <?php
             $catatan = [
               ['Setiap pendaftaran ditinjau panitia terlebih dahulu.', '#F97316'],
-              ['Barcode dikirim melalui email setelah pendaftaranmu disetujui.', '#C91F25'],
-              ['Simpan barcode di ponsel — tunjukkan saat datang, 22 Agustus 2026.', '#D9A441'],
-              ['Cukup satu kali pindai barcode di pintu masuk.', '#F97316'],
+              ['QR Code dikirim melalui email setelah pendaftaranmu disetujui.', '#C91F25'],
+              ['Simpan QR Code di ponsel — tunjukkan saat datang, 22 Agustus 2026.', '#D9A441'],
+              ['Cukup satu kali pindai QR Code di pintu masuk.', '#F97316'],
             ];
             foreach ($catatan as [$c, $col]): ?>
             <li class="flex gap-3">
@@ -584,7 +584,7 @@ tailwind.config = {
             </button>
 
             <p class="mt-3 text-center text-xs text-slate-400">
-              Pendaftaran akan ditinjau panitia sebelum barcode dikirim ke email kamu.
+              Pendaftaran akan ditinjau panitia sebelum QR Code dikirim ke email kamu.
             </p>
           </form>
         </div>

@@ -5,7 +5,7 @@ Gelang dicetak di meja registrasi pada hari-H, setelah peserta berhasil daftar u
 ## Alur Cetak
 
 ```
-Scan barcode layar HP -> daftar ulang berhasil
+Scan QR Code layar HP -> daftar ulang berhasil
   -> Panel hasil menampilkan tombol "Cetak Gelang"
   -> Klik tombol -> buka halaman cetak
   -> Printer wristband mencetak gelang
@@ -21,8 +21,8 @@ Ruang pada gelang sangat terbatas, jadi hanya memuat elemen esensial:
 
 | Elemen | Keterangan |
 |---|---|
-| Barcode Code 128 | Berisi kode peserta, sama persis dengan yang di email |
-| Kode peserta | Teks di bawah barcode, cadangan bila scan gagal |
+| QR Code | Berisi kode peserta, sama persis dengan yang di email |
+| Kode peserta | Teks di bawah QR Code, cadangan bila scan gagal |
 | Nama peserta | Dipotong bila terlalu panjang |
 | Nama acara | Opsional, bila ruang mencukupi |
 
@@ -31,12 +31,12 @@ Ruang pada gelang sangat terbatas, jadi hanya memuat elemen esensial:
 - Printer: **printer wristband khusus** (mis. Zebra), thermal transfer.
 - Halaman cetak memakai CSS `@media print` dengan ukuran halaman sesuai dimensi gelang.
 - Seluruh elemen antarmuka (navbar, tombol, latar) disembunyikan saat mencetak.
-- Margin dibuat nol agar barcode tidak bergeser.
+- Margin dibuat nol agar QR Code tidak bergeser.
 - Cetak dipicu otomatis lewat `window.print()` saat halaman cetak dibuka.
 
-### Dimensi Barcode di Gelang
+### Dimensi QR Code di Gelang
 
-Gelang sempit, sedangkan Code 128 untuk `EVT-000001` relatif lebar. Karena itu:
+Gelang sempit, sehingga QR Code harus dicetak cukup besar dan tidak terpotong. Karena itu:
 
 | Parameter | Nilai |
 |---|---|
@@ -45,7 +45,7 @@ Gelang sempit, sedangkan Code 128 untuk `EVT-000001` relatif lebar. Karena itu:
 | Quiet zone | Minimal 2,5 mm di kiri dan kanan |
 | Orientasi | Mengikuti panjang gelang, bukan lebarnya |
 
-- Barcode dicetak pada area gelang yang **datar**, bukan di bagian yang melengkung atau tertekuk.
+- QR Code dicetak pada area gelang yang **datar**, bukan di bagian yang melengkung atau tertekuk.
 - Bila kode tidak muat, perpendek format kode (mis. buang awalan `EVT-`) daripada memperkecil lebar modul.
 
 ## Aturan Penting
@@ -55,4 +55,4 @@ Gelang sempit, sedangkan Code 128 untuk `EVT-000001` relatif lebar. Karena itu:
 - `gelang_dicetak` bersifat penanda, **bukan** pengganti status kehadiran.
 - Cetak ulang diperbolehkan bila gelang rusak atau salah cetak. `gelang_dicetak_at` diperbarui ke waktu terakhir.
 - Tombol cetak memakai POST + CSRF token.
-- Uji cetak minimal satu gelang sebelum acara dimulai, lalu pindai hasilnya dengan mesin barcode yang akan dipakai.
+- Uji cetak minimal satu gelang sebelum acara dimulai, lalu pindai hasilnya dengan kamera atau scanner 2D yang akan dipakai.

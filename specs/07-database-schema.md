@@ -7,7 +7,7 @@ Dua tabel: `admin` dan `peserta`.
 | Kolom | Tipe | Keterangan |
 |---|---|---|
 | `id` | INT AUTO_INCREMENT | Primary key |
-| `kode` | VARCHAR(20) UNIQUE | Kode barcode, format `EVT-000001` |
+| `kode` | VARCHAR(20) UNIQUE | Kode peserta di dalam QR Code, format `EVT-000001` |
 | `nama` | VARCHAR(100) | Nama lengkap |
 | `gereja` | VARCHAR(150) | Asal gereja |
 | `info_dari` | VARCHAR(100) | Tahu acara dari mana |
@@ -19,7 +19,7 @@ Dua tabel: `admin` dan `peserta`.
 | `gelang_dicetak_at` | DATETIME NULL | Waktu gelang dicetak |
 | `status_masuk` | ENUM('belum_masuk','masuk') | Tahap 2. Default `belum_masuk` |
 | `masuk_at` | DATETIME NULL | Waktu masuk ruangan (tahap 2) |
-| `email_sent_at` | DATETIME NULL | Waktu barcode terakhir dikirim |
+| `email_sent_at` | DATETIME NULL | Waktu QR Code terakhir dikirim |
 | `created_at` | TIMESTAMP | Default `CURRENT_TIMESTAMP` |
 
 ### Dua Tahap Kehadiran
@@ -28,8 +28,8 @@ Peserta discan dua kali dengan kode yang sama:
 
 | Tahap | Media | Kolom Status | Kolom Waktu |
 |---|---|---|---|
-| 1. Daftar ulang | Barcode di layar HP / email | `status` | `checkin_at` |
-| 2. Masuk ruangan | Barcode di gelang | `status_masuk` | `masuk_at` |
+| 1. Daftar ulang | QR Code di layar HP / email | `status` | `checkin_at` |
+| 2. Masuk ruangan | QR Code di gelang | `status_masuk` | `masuk_at` |
 
 Gelang dicetak di antara kedua tahap, setelah daftar ulang berhasil.
 

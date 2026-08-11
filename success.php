@@ -85,7 +85,7 @@ tailwind.config = {
             <p class="font-bold text-amber-900">Menunggu Konfirmasi Panitia</p>
             <p class="mt-2 text-sm leading-relaxed text-amber-800">
               Panitia akan meninjau setiap pendaftaran terlebih dahulu.
-              Setelah disetujui, barcode tiket akan dikirim ke emailmu.
+              Setelah disetujui, QR Code tiket akan dikirim ke emailmu.
             </p>
           </div>
         </div>
@@ -111,7 +111,7 @@ tailwind.config = {
               $email !== ''
                 ? 'Pemberitahuan dikirim ke <strong>' . e($email) . '</strong>.'
                 : 'Pemberitahuan dikirim ke email yang kamu daftarkan.'],
-            ['Bila disetujui, barcode dikirim', 'Simpan barcode di ponsel untuk ditunjukkan saat datang.'],
+            ['Bila disetujui, QR Code dikirim', 'Simpan QR Code di ponsel untuk ditunjukkan saat datang.'],
           ];
           foreach ($langkah as $i => [$judul, $isi]): ?>
             <li class="flex gap-4">

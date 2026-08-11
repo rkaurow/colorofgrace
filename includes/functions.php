@@ -190,7 +190,7 @@ function cari_peserta_by_id(int $id): ?array
  * Statistik untuk dashboard.
  *
  * Catatan: angka kehadiran hanya menghitung peserta yang
- * sudah DITERIMA, karena hanya mereka yang punya barcode.
+ * sudah DITERIMA, karena hanya mereka yang memiliki QR Code.
  */
 function statistik_peserta(): array
 {

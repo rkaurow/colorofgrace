@@ -11,7 +11,8 @@
 # Dependencies
 vendor/
 
-# Generated participant barcodes
+# Generated participant QR codes
+assets/qr/*.png
 assets/barcode/*.png
 
 # Local logs and runtime files

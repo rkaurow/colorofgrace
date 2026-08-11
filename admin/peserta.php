@@ -147,7 +147,7 @@ require_once __DIR__ . '/../includes/header.php';
           <tr>
             <td colspan="11" class="px-4 py-16 text-center text-sm text-slate-400">
               <?= ($cari !== '' || $filter !== '') ? 'Tidak ada data yang cocok.' : 'Belum ada peserta terdaftar.' ?>
-            </td>9
+            </td>
           </tr>
           <?php else: ?>
             <?php foreach ($daftar as $i => $p): ?>
@@ -207,18 +207,19 @@ require_once __DIR__ . '/../includes/header.php';
 
               <td class="px-4 py-3">
                 <div class="flex items-center justify-end gap-1.5">
-                  <!-- Kirim ulang barcode: hanya untuk peserta yang sudah diterima -->
+                  <!-- Kirim ulang QR Code: hanya untuk peserta yang sudah diterima -->
                   <?php if ($p['status_acc'] === 'diterima'): ?>
                   <form method="post" action="<?= e(BASE_URL) ?>/admin/send-barcode.php"
-                        onsubmit="return confirm('Kirim ulang barcode ke <?= e(addslashes($p['email'])) ?>?');">
+                    onsubmit="return confirm('Kirim ulang QR Code ke <?= e(addslashes($p['email'])) ?>?');">
                     <?= csrf_field() ?>
                     <input type="hidden" name="peserta_id" value="<?= (int) $p['id'] ?>">
-                    <button type="submit" title="Kirim ulang barcode"
-                            class="rounded-lg border-2 border-coi-200 p-2 text-coi-600 transition hover:bg-coi-50">
+                    <input type="hidden" name="kembali" value="peserta">
+                    <button type="submit" title="Kirim ulang QR Code"
+                        class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg border-2 border-coi-200 px-2.5 py-2 text-xs font-bold text-coi-600 transition hover:bg-coi-50">
                       <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                       </svg>
-                      <span class="sr-only">Kirim ulang barcode</span>
+                      Kirim Ulang QR
                     </button>
                   </form>
                   <?php else: ?>

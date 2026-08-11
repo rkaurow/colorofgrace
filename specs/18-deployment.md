@@ -4,8 +4,8 @@
 
 - Konfigurasi `config/database.php` dan `config/smtp.php`.
 - Impor `database.sql`.
-- Unggah folder `vendor` (PHPMailer + barcode generator) secara manual.
-- Pastikan folder `assets/barcode/` dapat ditulis.
+- Unggah folder `vendor` (PHPMailer + QR Code generator) secara manual.
+- Pastikan folder `assets/qr/` dapat ditulis.
 - Aktifkan HTTPS.
 
 ## Persiapan Perangkat Keras Hari-H
@@ -19,7 +19,7 @@
 
 ## Uji Coba Sebelum Acara
 
-- [ ] Scan barcode dari layar HP dengan scanner yang akan dipakai
+- [ ] Scan QR Code dari layar HP dengan kamera atau scanner 2D yang akan dipakai
 - [ ] Cetak satu gelang uji, lalu pindai hasilnya
 - [ ] Pastikan scanner mengirim karakter Enter setelah kode
 - [ ] Uji koneksi internet di lokasi kedua titik scan

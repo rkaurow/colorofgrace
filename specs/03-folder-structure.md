@@ -12,7 +12,7 @@
     masuk.php           Scan tahap 2 (gelang)
     scan-process.php    Endpoint validasi scan (JSON)
     cetak-gelang.php    Halaman siap cetak gelang
-    send-barcode.php    Proses kirim ulang barcode
+    send-barcode.php    Proses kirim ulang QR Code
     logout.php          Destroy session
 /config
     database.php        Koneksi MySQL
@@ -21,15 +21,15 @@
     functions.php       Helper umum
     auth.php            Middleware session admin
     mailer.php          Service pengiriman email
-    barcode.php         Service pembuatan barcode Code 128
+    qrcode.php          Service pembuatan QR Code
     header.php          Layout atas
     footer.php          Layout bawah
 /assets
     css/
         print-gelang.css  Gaya khusus cetak gelang
     js/
-    barcode/            Hasil generate barcode peserta
-/vendor                 PHPMailer + barcode generator
+    qr/                 Hasil generate QR Code peserta
+/vendor                 PHPMailer + QR Code generator
 /database.sql           Skema tabel
 ```
 

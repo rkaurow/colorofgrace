@@ -17,15 +17,15 @@ Halaman `/admin/peserta.php` menampilkan **semua variabel peserta** dalam tabel,
 | 9 | Gelang | badge tercetak / belum + waktu `gelang_dicetak_at` |
 | 10 | Masuk Ruangan | badge `masuk` / `belum_masuk` + waktu `masuk_at` |
 | 11 | Tanggal Daftar | `created_at` |
-| 12 | **Aksi** | Tombol **Kirim Barcode** dan **Cetak Gelang** |
+| 12 | **Aksi** | Tombol **Kirim Ulang QR** dan **Cetak Gelang** |
 
 ## Tombol Aksi
 
 Berada di kolom paling ujung (kanan) setiap baris.
 
-### Kirim Barcode
+### Kirim Ulang QR
 
-- Mengirim ulang email berisi barcode ke alamat email peserta tersebut.
+- Mengirim ulang email berisi QR Code ke alamat email peserta tersebut.
 - Wajib memakai POST + CSRF token, bukan link GET.
 - Tampilkan modal konfirmasi sebelum mengirim.
 - Tombol menampilkan state loading selama pengiriman untuk mencegah klik ganda.
@@ -40,7 +40,7 @@ Berada di kolom paling ujung (kanan) setiap baris.
 
 ## Fitur Pendukung
 
-- **Pencarian** berdasarkan nama, email, kode, atau asal gereja. Pencarian nama penting sebagai jalur cadangan saat peserta lupa membawa barcode.
+- **Pencarian** berdasarkan nama, email, kode, atau asal gereja. Pencarian nama penting sebagai jalur cadangan saat peserta lupa membawa QR Code.
 - **Filter status**: semua / belum daftar ulang / sudah daftar ulang / belum cetak gelang / sudah masuk ruangan.
 - **Pagination** default 25 baris per halaman.
 - **Export CSV** (opsional) berisi seluruh kolom di atas.
