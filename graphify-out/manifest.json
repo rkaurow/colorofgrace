@@ -105,8 +105,8 @@
     "semantic_hash": ""
   },
   "index.php": {
-    "mtime": 1786336161.7525754,
-    "ast_hash": "7d3b068668cac4d6d1b174b947b95271",
+    "mtime": 1786420859.111499,
+    "ast_hash": "05513f2d050712bd49467cd76e77727f",
     "semantic_hash": ""
   },
   "install.php": {
@@ -272,26 +272,6 @@
   "specs/prompts/review.md": {
     "mtime": 1786044730.0,
     "ast_hash": "613ff34fcb6abd507b94d9173f2c1907",
-    "semantic_hash": ""
-  },
-  "assets/barcode/COI-000001.png": {
-    "mtime": 1786077542.5388334,
-    "ast_hash": "eebd34495a24fc8539cb9151cff2cf56",
-    "semantic_hash": ""
-  },
-  "assets/barcode/COI-000002.png": {
-    "mtime": 1786087320.9306808,
-    "ast_hash": "d3a5c3963dcaf3a8840367bb96579dc9",
-    "semantic_hash": ""
-  },
-  "assets/barcode/COI-000003.png": {
-    "mtime": 1786193715.5312014,
-    "ast_hash": "ce74f81895963f39261e4f92686e5636",
-    "semantic_hash": ""
-  },
-  "assets/barcode/COI-000006.png": {
-    "mtime": 1786193655.6813576,
-    "ast_hash": "c2f779b449c1b42fb983d7b90fb89308",
     "semantic_hash": ""
   },
   "assets/img/content.png": {

@@ -263,27 +263,27 @@ tailwind.config = {
       </div>
 
       <!-- Event details -->
-      <div class="animate-fade-up mx-auto mt-6 flex max-w-sm flex-col items-stretch gap-3 sm:mt-8 lg:mx-0 lg:items-start" style="animation-delay:.3s">
+      <div class="animate-fade-up mx-auto mt-6 flex w-full max-w-[20rem] flex-col items-stretch gap-3 sm:mt-8 lg:mx-0" style="animation-delay:.3s">
         <!-- Date -->
-        <div class="flex min-w-0 items-center justify-center gap-3 lg:justify-start">
+        <div class="flex w-full min-w-0 items-center justify-start gap-3">
           <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg" style="background:rgba(249,115,22,.25)">
             <svg class="h-4 w-4" fill="none" stroke="#F97316" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
           </div>
-          <span class="min-w-0 text-sm font-bold text-white sm:text-base">22 AUGUST 2026</span>
+          <span class="min-w-0 text-left text-sm font-bold text-white sm:text-base">22 AUGUST 2026</span>
         </div>
         <!-- Location -->
-        <div class="flex min-w-0 items-center justify-center gap-3 lg:justify-start">
+        <div class="flex w-full min-w-0 items-center justify-start gap-3">
           <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg" style="background:rgba(249,115,22,.25)">
             <svg class="h-4 w-4" fill="none" stroke="#F97316" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
           </div>
-          <span class="min-w-0 max-w-[18rem] break-words text-center text-sm font-bold leading-snug text-white sm:max-w-none sm:text-base lg:text-left">ROYAL PHOENIX RESTAURANT · 2ND FLOOR</span>
+          <span class="min-w-0 max-w-[18rem] break-words text-left text-sm font-bold leading-snug text-white sm:max-w-none sm:text-base">ROYAL PHOENIX RESTAURANT · 2ND FLOOR</span>
         </div>
         <!-- Time -->
-        <div class="flex min-w-0 items-center justify-center gap-3 lg:justify-start">
+        <div class="flex w-full min-w-0 items-center justify-start gap-3">
           <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg" style="background:rgba(249,115,22,.25)">
             <svg class="h-4 w-4" fill="none" stroke="#F97316" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           </div>
-          <span class="min-w-0 text-sm font-bold text-white sm:text-base">OPEN GATE 14.00 WITA</span>
+          <span class="min-w-0 text-left text-sm font-bold text-white sm:text-base">OPEN GATE 14.00 WITA</span>
         </div>
       </div>
 
