@@ -172,8 +172,8 @@
 (function () {
   const TAHAP = <?= json_encode($tahap) ?>;
   const CSRF  = <?= json_encode(csrf_token()) ?>;
-  const URL_SCAN = <?= json_encode(BASE_URL . '/admin/scan-process.php') ?>;
-  const URL_CARI = <?= json_encode(BASE_URL . '/admin/cari-peserta.php') ?>;
+  const URL_SCAN = new URL('scan-process.php', window.location.href).href;
+  const URL_CARI = new URL('cari-peserta.php', window.location.href).href;
 
   const inp        = document.getElementById('inputKode');
   const cariNama   = document.getElementById('cariNama');
@@ -271,14 +271,35 @@
         body
       });
 
-      if (res.status === 401) {
-        tampilkan({ status:'invalid', message:'Sesi berakhir. Silakan login ulang.', kode });
-        setTimeout(() => location.href = <?= json_encode(BASE_URL . '/admin/login.php') ?>, 1500);
+      const teks = await res.text();
+      let data = null;
+
+      try {
+        data = JSON.parse(teks);
+      } catch (e) {}
+
+      if (!res.ok) {
+        if (res.status === 401) {
+          tampilkan({ status:'invalid', message:'Sesi berakhir. Silakan login ulang.', kode });
+          setTimeout(() => location.href = <?= json_encode(BASE_URL . '/admin/login.php') ?>, 1500);
+          return;
+        }
+
+        tampilkan({
+          status: 'invalid',
+          message: data && data.message
+            ? data.message
+            : 'Server gagal memproses scan (HTTP ' + res.status + ').',
+          kode
+        });
         return;
       }
 
-      const data = await res.json();
-      tampilkan(data);
+      tampilkan(data || {
+        status: 'invalid',
+        message: 'Respons server tidak valid. Periksa log server.',
+        kode
+      });
     } catch (err) {
       tampilkan({ status:'invalid', message:'Gagal terhubung ke server. Periksa koneksi.', kode });
     } finally {
